@@ -1,2 +1,2 @@
 # tnelections
-tn election nomee details
+tn election nonimee details
