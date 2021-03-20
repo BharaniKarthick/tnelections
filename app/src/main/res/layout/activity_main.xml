@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:padding="10dp"
+        android:gravity="center"
+        android:background="@color/light_green"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.example.tnelection2021.views.RubikRegularTextView
+            android:text="@string/assembly"
+            android:textSize="16sp"
+            android:textColor="@color/primaryTextColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/filter_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:drawSelectorOnTop="true"
+            android:gravity="end"
+            android:spinnerMode="dropdown"
+            android:entries="@array/assembly_filter_array" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            app:layoutManager="LinearLayoutManager"
+            tools:listitem="@layout/fragment_item"
+            android:background="?attr/selectableItemBackground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

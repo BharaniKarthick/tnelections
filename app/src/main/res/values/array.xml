@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string-array name="assembly_filter_array">
+		<item>Chennai</item>
+		<item>Alandur</item>
+		<item>Alangudi</item>
+	</string-array>
+
+</resources>
