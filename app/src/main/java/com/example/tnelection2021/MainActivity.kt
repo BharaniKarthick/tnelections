@@ -44,11 +44,13 @@ class MainActivity : AppCompatActivity(), OnListFragmentInteractionListener {
             try {
                 jsonObj = JSONObject(jsonString)
             } catch (e: JSONException) {
+                Log.e("db", "Error parign json", e)
                 e.printStackTrace()
             }
 
         }.addOnFailureListener{
             Log.e("db", "Error getting data", it)
+            Toast.makeText(this,"Client is Offline ",Toast.LENGTH_LONG).show();
         }
 
     }
@@ -109,7 +111,7 @@ class MainActivity : AppCompatActivity(), OnListFragmentInteractionListener {
             for (i in 0 until jsonArray!!.length())
             {
                 val jsonObject = jsonArray.getJSONObject(i)
-                val mCandidateDetails1 = CandidateDetails(jsonObject?.optString("name"), jsonObject?.optString("age")?.toInt(), jsonObject?.optString("party"))
+                val mCandidateDetails1 = CandidateDetails(jsonObject?.optString("name"), jsonObject?.optString("age")?.toInt(), jsonObject?.optString("party"), jsonObject?.optString("des"))
                 list.add(mCandidateDetails1)
             }
 

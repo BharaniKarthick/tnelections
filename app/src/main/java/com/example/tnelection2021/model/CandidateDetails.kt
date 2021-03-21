@@ -6,5 +6,6 @@ data class CandidateDetails(
 
 	val candidate_name: String? = null,
 	val candidate_age: Int? = null,
-	val candidate_party: String? = null
+	val candidate_party: String? = null,
+	val candidate_video_url: String? = null
 ) : Serializable

@@ -94,6 +94,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
+            <com.example.tnelection2021.views.RubikMediumTextView
+                android:id="@+id/video_url"
+                tools:text="video_url"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toEndOf="@+id/name_label"
+                app:layout_constraintTop_toBottomOf="@+id/party_label"
+                android:textColor="@color/primaryTextColor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="showVideo"
+                />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>

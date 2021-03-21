@@ -1,7 +1,9 @@
 package com.example.tnelection2021
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.tnelection2021.model.CandidateDetails
 import kotlinx.android.synthetic.main.activity_details.*
@@ -22,6 +24,7 @@ class DetailsActivity : AppCompatActivity()
 
         name.text = mCandidateDetails.candidate_name
         party.text = mCandidateDetails.candidate_party
+        video_url.text=mCandidateDetails.candidate_video_url
 
     }
 
@@ -39,4 +42,13 @@ class DetailsActivity : AppCompatActivity()
         super.onBackPressed()
         finish()
     }
+
+    fun showVideo(view: View) {
+        val intent = Intent(this, VideoPlayer::class.java)
+        intent.putExtra("candidate_details", mCandidateDetails)
+        startActivity(intent)
+
+    }
+
+
 }

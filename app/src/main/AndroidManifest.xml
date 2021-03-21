@@ -11,9 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TNElection2021">
-        <activity android:name=".DetailsActivity"
-            android:label="Candidate Details">
+        <activity android:name=".VideoPlayer" android:configChanges="orientation|screenLayout|layoutDirection">
         </activity>
+        <activity
+            android:name=".DetailsActivity"
+            android:label="Candidate Details"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
