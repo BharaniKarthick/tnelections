@@ -2,7 +2,9 @@
 <resources>
 
 	<string-array name="assembly_filter_array">
-		<item>Chennai</item>
+		<item>dharapuram</item>
+		<item>tirupur</item>
+		<item>palladam</item>
 		<item>Alandur</item>
 		<item>Alangudi</item>
 	</string-array>

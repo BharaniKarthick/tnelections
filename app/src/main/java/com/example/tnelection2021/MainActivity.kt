@@ -1,28 +1,71 @@
 package com.example.tnelection2021
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.tnelection2021.adapter.CandidateRecyclerViewAdapter
 import com.example.tnelection2021.model.CandidateDetails
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
-import java.text.FieldPosition
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
+
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var database: DatabaseReference
+    var jsonString="";
+    var jsonObj: JSONObject? = null
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        database = Firebase.database.reference
+      //  Log.i( "Got value")
+
+        database.child("tn").get().addOnSuccessListener {
+      //  database.get().addOnSuccessListener {
+            Log.i("db", "Got value ${it.value}")
+
+            jsonString = it.getValue().toString()
+            try {
+                jsonObj = JSONObject(jsonString)
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+
+            Log.i("db", "Got value "+jsonObj)
+
+            //it.value as String
+
+        }.addOnFailureListener{
+            Log.e("db", "Error getting data", it)
+        }
+
+
 
         loadAllViews()
     }
 
+    override fun onStart() {
+        super.onStart()
+
+    }
+
     private fun loadAllViews()
     {
-        filter_spinner.adapter = ArrayAdapter(this, R.layout.simple_spinner_item, resources.getStringArray(R.array.assembly_filter_array)).apply {
+        filter_spinner.adapter = ArrayAdapter(
+            this, R.layout.simple_spinner_item, resources.getStringArray(
+                R.array.assembly_filter_array
+            )
+        ).apply {
             setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         }
 
@@ -38,8 +81,8 @@ class MainActivity : AppCompatActivity() {
             {
                 else ->
                 {
-                    loadRecyclerView(position)
-                    text1(parent!!.adapter.getItem(position).toString())
+                    loadRecyclerView(parent!!.adapter.getItem(position).toString(), position)
+                    //text1(parent!!.adapter.getItem(position).toString())
                 }
 
             }
@@ -51,10 +94,29 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadRecyclerView(position: Int)
+    private fun loadRecyclerView(assembyName: String, position: Int)
     {
+//        Toast.makeText(this, jsonObj.toString(), Toast.LENGTH_LONG).show()
+        Log.i("db","heere "+ jsonObj.toString())
+        Log.i("db","heere "+ jsonObj?.get(assembyName).toString())
         recycler_view.invalidate()
+        try {
+            var jsonArray: JSONArray = JSONArray(jsonObj?.get(assembyName))
+            Log.i("db-currentasemly", jsonArray.toString())
+        }catch (e:Exception){
+
+        }
+
+//        val jsonArray =  jsonObj?.get(assembyName) as JSONArray
+//        Toast.makeText(this, jsonArray.toString(), Toast.LENGTH_LONG).show()
+
+        //creating jsonobject
+        //JSONObject(jsonString);
+        //val obj=jsonString.get(assembyName)
+
+
         val list : ArrayList<CandidateDetails> = ArrayList()
+
         val mCandidateDetails1 = CandidateDetails("Hari", 32, "ADMK")
         val mCandidateDetails2 = CandidateDetails("Sakthi", 24, "BJP")
         val mCandidateDetails3 = CandidateDetails("Bharani", 25, "MNM")
@@ -79,8 +141,9 @@ class MainActivity : AppCompatActivity() {
         recycler_view.invalidate()
     }
 
-    private fun text1(str : String)
+    private fun text1(str: String)
     {
+        Log.i("db", "faedadas value")
         Toast.makeText(this, str, Toast.LENGTH_SHORT).show()
     }
 }
