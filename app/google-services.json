@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "545906889064",
+    "firebase_url": "https://tn-election-2021-default-rtdb.firebaseio.com",
     "project_id": "tn-election-2021",
     "storage_bucket": "tn-election-2021.appspot.com"
   },

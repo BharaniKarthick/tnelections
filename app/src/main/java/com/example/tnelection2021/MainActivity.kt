@@ -1,5 +1,7 @@
 package com.example.tnelection2021
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -18,7 +20,7 @@ import org.json.JSONException
 import org.json.JSONObject
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnListFragmentInteractionListener {
 
     private lateinit var database: DatabaseReference
     var jsonString="";
@@ -28,10 +30,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         database = Firebase.database.reference
-      //  Log.i( "Got value")
 
+        getDateFromFireBase()
+        loadAllViews()
+    }
+
+    private fun getDateFromFireBase()
+    {
         database.child("tn").get().addOnSuccessListener {
-      //  database.get().addOnSuccessListener {
             Log.i("db", "Got value ${it.value}")
 
             jsonString = it.getValue().toString()
@@ -41,17 +47,10 @@ class MainActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
 
-            Log.i("db", "Got value "+jsonObj)
-
-            //it.value as String
-
         }.addOnFailureListener{
             Log.e("db", "Error getting data", it)
         }
 
-
-
-        loadAllViews()
     }
 
     override fun onStart() {
@@ -61,6 +60,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadAllViews()
     {
+        if(jsonObj == null)
+        {
+            getDateFromFireBase()
+        }
+
         filter_spinner.adapter = ArrayAdapter(
             this, R.layout.simple_spinner_item, resources.getStringArray(
                 R.array.assembly_filter_array
@@ -82,7 +86,6 @@ class MainActivity : AppCompatActivity() {
                 else ->
                 {
                     loadRecyclerView(parent!!.adapter.getItem(position).toString(), position)
-                    //text1(parent!!.adapter.getItem(position).toString())
                 }
 
             }
@@ -97,24 +100,17 @@ class MainActivity : AppCompatActivity() {
     private fun loadRecyclerView(assembyName: String, position: Int)
     {
         val list : ArrayList<CandidateDetails> = ArrayList()
-//        Toast.makeText(this, jsonObj.toString(), Toast.LENGTH_LONG).show()
-        Log.i("db","heere "+ jsonObj.toString())
-        Log.i("db","heere "+ jsonObj?.get(assembyName).toString())
+
         recycler_view.invalidate()
+
         try {
-            val jsonArray = jsonObj?.optJSONArray(assembyName);
-            Log.i("db-currentasemly", jsonArray.toString())
+            val jsonArray = jsonObj?.optJSONArray(assembyName)
 
-
-
-
-           /* val mCandidateDetails1 = CandidateDetails("Hari", 32, "ADMK")
-            val mCandidateDetails2 = CandidateDetails("Sakthi", 24, "BJP")
-            val mCandidateDetails3 = CandidateDetails("Bharani", 25, "MNM")*/
-            for (i in 0 until jsonArray!!.length()) {
-                val jsonObject = jsonArray?.getJSONObject(i)
+            for (i in 0 until jsonArray!!.length())
+            {
+                val jsonObject = jsonArray.getJSONObject(i)
                 val mCandidateDetails1 = CandidateDetails(jsonObject?.optString("name"), jsonObject?.optString("age")?.toInt(), jsonObject?.optString("party"))
-                list.add(mCandidateDetails1);
+                list.add(mCandidateDetails1)
             }
 
 
@@ -122,39 +118,19 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-//
-//        Toast.makeText(this, jsonArray.toString(), Toast.LENGTH_LONG).show()
-
-        //creating jsonobject
-        //JSONObject(jsonString);
-        //val obj=jsonString.get(assembyName)
-
-
-
-
-       /* if(position == 0)
-        {
-            list.add(mCandidateDetails1)
-        }
-        else if(position == 1)
-        {
-            list.add(mCandidateDetails1)
-            list.add(mCandidateDetails2)
-        }
-        else
-        {
-            list.add(mCandidateDetails1)
-            list.add(mCandidateDetails2)
-            list.add(mCandidateDetails3)
-        }
-*/
-        recycler_view.adapter = CandidateRecyclerViewAdapter(list)
+        recycler_view.adapter = CandidateRecyclerViewAdapter(list, this)
         recycler_view.invalidate()
     }
 
-    private fun text1(str: String)
+    override fun onListFragmentInteraction(item: CandidateDetails)
     {
-        Log.i("db", "faedadas value")
-        Toast.makeText(this, str, Toast.LENGTH_SHORT).show()
+        openDetailsActivity(item)
+    }
+
+    private fun openDetailsActivity(item: CandidateDetails)
+    {
+        val intent = Intent(this, DetailsActivity::class.java)
+        intent.putExtra("candidate_details", item)
+        startActivity(intent)
     }
 }
