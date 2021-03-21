@@ -24,7 +24,7 @@ class DetailsActivity : AppCompatActivity()
 
         name.text = mCandidateDetails.candidate_name
         party.text = mCandidateDetails.candidate_party
-        video_url.text=mCandidateDetails.candidate_video_url
+        //video_url.text=mCandidateDetails.candidate_video_url
 
     }
 

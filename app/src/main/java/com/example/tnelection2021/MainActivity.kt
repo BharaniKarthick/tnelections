@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity(), OnListFragmentInteractionListener {
             for (i in 0 until jsonArray!!.length())
             {
                 val jsonObject = jsonArray.getJSONObject(i)
-                val mCandidateDetails1 = CandidateDetails(jsonObject?.optString("name"), jsonObject?.optString("age")?.toInt(), jsonObject?.optString("party"), jsonObject?.optString("des"))
+                val mCandidateDetails1 = CandidateDetails(jsonObject?.optString("candidate_name"), jsonObject?.optString("candidate_age")?.toInt(), jsonObject?.optString("candidate_party"), jsonObject?.optString("candidate_video_url"), jsonObject?.optString("candidate_address"), jsonObject?.optString("candidate_gender"), jsonObject?.optString("candidate_f_h_name"), jsonObject?.optString("candidate_status"))
                 list.add(mCandidateDetails1)
             }
 
