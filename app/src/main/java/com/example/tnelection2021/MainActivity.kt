@@ -96,18 +96,33 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadRecyclerView(assembyName: String, position: Int)
     {
+        val list : ArrayList<CandidateDetails> = ArrayList()
 //        Toast.makeText(this, jsonObj.toString(), Toast.LENGTH_LONG).show()
         Log.i("db","heere "+ jsonObj.toString())
         Log.i("db","heere "+ jsonObj?.get(assembyName).toString())
         recycler_view.invalidate()
         try {
-            var jsonArray: JSONArray = JSONArray(jsonObj?.get(assembyName))
+            val jsonArray = jsonObj?.optJSONArray(assembyName);
             Log.i("db-currentasemly", jsonArray.toString())
+
+
+
+
+           /* val mCandidateDetails1 = CandidateDetails("Hari", 32, "ADMK")
+            val mCandidateDetails2 = CandidateDetails("Sakthi", 24, "BJP")
+            val mCandidateDetails3 = CandidateDetails("Bharani", 25, "MNM")*/
+            for (i in 0 until jsonArray!!.length()) {
+                val jsonObject = jsonArray?.getJSONObject(i)
+                val mCandidateDetails1 = CandidateDetails(jsonObject?.optString("name"), jsonObject?.optString("age")?.toInt(), jsonObject?.optString("party"))
+                list.add(mCandidateDetails1);
+            }
+
+
         }catch (e:Exception){
 
         }
 
-//        val jsonArray =  jsonObj?.get(assembyName) as JSONArray
+//
 //        Toast.makeText(this, jsonArray.toString(), Toast.LENGTH_LONG).show()
 
         //creating jsonobject
@@ -115,13 +130,9 @@ class MainActivity : AppCompatActivity() {
         //val obj=jsonString.get(assembyName)
 
 
-        val list : ArrayList<CandidateDetails> = ArrayList()
 
-        val mCandidateDetails1 = CandidateDetails("Hari", 32, "ADMK")
-        val mCandidateDetails2 = CandidateDetails("Sakthi", 24, "BJP")
-        val mCandidateDetails3 = CandidateDetails("Bharani", 25, "MNM")
 
-        if(position == 0)
+       /* if(position == 0)
         {
             list.add(mCandidateDetails1)
         }
@@ -136,7 +147,7 @@ class MainActivity : AppCompatActivity() {
             list.add(mCandidateDetails2)
             list.add(mCandidateDetails3)
         }
-
+*/
         recycler_view.adapter = CandidateRecyclerViewAdapter(list)
         recycler_view.invalidate()
     }
