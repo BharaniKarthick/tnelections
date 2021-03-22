@@ -10,10 +10,12 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.tnelection2021.adapter.CandidateRecyclerViewAdapter
+import com.example.tnelection2021.model.AssemblyItem
 import com.example.tnelection2021.model.CandidateDetails
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONArray
 import org.json.JSONException
@@ -23,6 +25,8 @@ import org.json.JSONObject
 class MainActivity : AppCompatActivity(), OnListFragmentInteractionListener {
 
     private lateinit var database: DatabaseReference
+    val GSON                    = Gson()
+
     var jsonString="";
     var jsonObj: JSONObject? = null
     override fun onCreate(savedInstanceState: Bundle?)
@@ -101,20 +105,18 @@ class MainActivity : AppCompatActivity(), OnListFragmentInteractionListener {
 
     private fun loadRecyclerView(assembyName: String, position: Int)
     {
-        val list : ArrayList<CandidateDetails> = ArrayList()
+        var list : ArrayList<CandidateDetails> = ArrayList()
 
         recycler_view.invalidate()
 
         try {
-            val jsonArray = jsonObj?.optJSONArray(assembyName)
 
-            for (i in 0 until jsonArray!!.length())
+            val assemblyItemList = GSON.fromJson(jsonObj.toString(), AssemblyItem::class.java)
+
+            if(assemblyItemList.candidate_details_list!!.size > 0)
             {
-                val jsonObject = jsonArray.getJSONObject(i)
-                val mCandidateDetails1 = CandidateDetails(jsonObject?.optString("candidate_name"), jsonObject?.optString("candidate_age")?.toInt(), jsonObject?.optString("candidate_party"), jsonObject?.optString("candidate_video_url"), jsonObject?.optString("candidate_address"), jsonObject?.optString("candidate_gender"), jsonObject?.optString("candidate_f_h_name"), jsonObject?.optString("candidate_status"))
-                list.add(mCandidateDetails1)
+                list.addAll(assemblyItemList.candidate_details_list)
             }
-
 
         }catch (e:Exception){
 

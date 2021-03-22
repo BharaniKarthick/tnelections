@@ -4,6 +4,7 @@ import java.io.Serializable
 
 data class CandidateDetails(
 
+	val candidate_photo : String? = null,
 	val candidate_name: String? = null,
 	val candidate_age: Int? = null,
 	val candidate_party: String? = null,
@@ -11,5 +12,6 @@ data class CandidateDetails(
 	val candidate_address: String? = null,
 	val candidate_gender: String? = null,
 	val candidate_f_h_name: String? = null,
-	val candidate_status: String? = null
+	val candidate_status: String? = null,
+	val candidate_pdf: String? = null
 ) : Serializable
