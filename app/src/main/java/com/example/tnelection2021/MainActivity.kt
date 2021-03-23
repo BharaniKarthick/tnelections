@@ -1,10 +1,12 @@
 package com.example.tnelection2021
 
-import android.content.Context
+import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -12,14 +14,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.tnelection2021.adapter.CandidateRecyclerViewAdapter
-import com.example.tnelection2021.model.AssemblyItem
 import com.example.tnelection2021.model.CandidateDetails
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
-import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -27,7 +27,6 @@ import org.json.JSONObject
 class MainActivity : AppCompatActivity(), OnListFragmentInteractionListener {
 
     private lateinit var database: DatabaseReference
-    val GSON                    = Gson()
 
     var jsonString="";
     var jsonObj: JSONObject? = null
@@ -47,11 +46,47 @@ class MainActivity : AppCompatActivity(), OnListFragmentInteractionListener {
         loadAllViews()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menu.add(Menu.NONE, Menu.FIRST, Menu.NONE, "Feedback")
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean
     {
-        return super.onCreateOptionsMenu(menu)
+        if(item.itemId == Menu.FIRST)
+        {
+            sendFeedback()
+            Toast.makeText(this, "Feedback sent...", Toast.LENGTH_LONG).show()
+        }
+        return super.onOptionsItemSelected(item)
 
     }
+
+    private fun sendFeedback() {
+        val mailto = arrayOf("kernelkidsapp@gmail.com")
+        val sendIntent = Intent(Intent.ACTION_SEND)
+        sendIntent.putExtra(Intent.EXTRA_EMAIL, mailto)
+        sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Android app feedback")
+        sendIntent.type = "plain/text"
+        try
+        {
+            try
+            {
+                startActivity(Intent.createChooser(sendIntent, "Send Email Via"))
+            }
+            catch (e: ActivityNotFoundException)
+            {
+
+            }
+
+        }
+        catch (e: PackageManager.NameNotFoundException)
+        {
+
+        }
+    }
+
+
     private fun getDateFromFireBase()
     {
         database.child("tn_states").get().addOnSuccessListener {

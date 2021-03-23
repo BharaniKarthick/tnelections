@@ -30,6 +30,7 @@
             android:layout_marginStart="10dp"
             android:drawSelectorOnTop="true"
             android:gravity="end"
+            android:backgroundTint="@color/white"
             android:outlineSpotShadowColor="@color/white"
             android:outlineAmbientShadowColor="@color/white"
             android:spinnerMode="dropdown" />

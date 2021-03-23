@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">TN Election 2021</string>
-    <string name="assembly">Assembly</string>
+    <string name="app_name">TN Election</string>
+    <string name="assembly">Constituency</string>
 </resources>
