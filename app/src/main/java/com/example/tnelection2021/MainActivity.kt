@@ -31,6 +31,11 @@ class MainActivity : AppCompatActivity(), OnListFragmentInteractionListener {
 
     var jsonString="";
     var jsonObj: JSONObject? = null
+    private var mSatesArrayList : ArrayList<String> = ArrayList()
+    private var isStatesLoaded = false
+    private var isJsonLoaded = false
+
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -49,6 +54,15 @@ class MainActivity : AppCompatActivity(), OnListFragmentInteractionListener {
     }
     private fun getDateFromFireBase()
     {
+        database.child("tn_states").get().addOnSuccessListener {
+
+            val string = it.value.toString()
+            setStatesArrayList(string)
+            isStatesLoaded = true
+
+            handleProgressBar()
+        }
+
         database.child("tn").get().addOnSuccessListener {
             Log.i("db", "Got value ${it.value}")
 
@@ -60,12 +74,42 @@ class MainActivity : AppCompatActivity(), OnListFragmentInteractionListener {
                 e.printStackTrace()
             }
 
+            isJsonLoaded = true
+
+            handleProgressBar()
+
 
         }.addOnFailureListener{
             Log.e("db", "Error getting data", it)
             Toast.makeText(this,"Client is Offline ",Toast.LENGTH_LONG).show();
         }
 
+    }
+
+    private fun handleProgressBar() {
+        if(isJsonLoaded&&isStatesLoaded)
+        {
+            progess_bar.visibility = View.GONE
+        }
+    }
+
+    private fun setStatesArrayList(string: String)
+    {
+        val alist = string.split(",")
+
+        mSatesArrayList.addAll(alist)
+
+        setAdapter()
+    }
+
+    private fun setAdapter()
+    {
+        filter_spinner.adapter = ArrayAdapter(
+                this, R.layout.simple_spinner_item, mSatesArrayList).apply {
+            setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+        }
+
+        filter_spinner.onItemSelectedListener = onFilterSelectedListener
     }
 
     override fun onStart() {
@@ -79,31 +123,13 @@ class MainActivity : AppCompatActivity(), OnListFragmentInteractionListener {
         {
             getDateFromFireBase()
         }
-
-        filter_spinner.adapter = ArrayAdapter(
-            this, R.layout.simple_spinner_item, resources.getStringArray(
-                R.array.assembly_filter_array
-            )
-        ).apply {
-            setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-        }
-
-        filter_spinner.onItemSelectedListener = onFilterSelectedListener
-
     }
 
     private val onFilterSelectedListener = object : AdapterView.OnItemSelectedListener
     {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long)
         {
-            when(position)
-            {
-                else ->
-                {
-                    loadRecyclerView(parent!!.adapter.getItem(position).toString(), position)
-                }
-
-            }
+            loadRecyclerView(parent!!.adapter.getItem(position).toString(), position)
         }
 
         override fun onNothingSelected(parent: AdapterView<*>?)
@@ -120,7 +146,7 @@ class MainActivity : AppCompatActivity(), OnListFragmentInteractionListener {
 
         list = getCandidateListFromJson(assembyName)
 
-        recycler_view.adapter = CandidateRecyclerViewAdapter(list, this)
+        recycler_view.adapter = CandidateRecyclerViewAdapter(this, list, this)
         recycler_view.invalidate()
     }
 
@@ -128,7 +154,7 @@ class MainActivity : AppCompatActivity(), OnListFragmentInteractionListener {
     {
         var list : ArrayList<CandidateDetails> = ArrayList()
 
-        val jsonArray = jsonObj?.optJSONArray(assembyName)
+        val jsonArray = jsonObj?.optJSONArray(assembyName.trim())
 
         if(jsonArray != null)
         {

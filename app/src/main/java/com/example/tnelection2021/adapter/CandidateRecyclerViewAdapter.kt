@@ -1,18 +1,21 @@
 package com.example.tnelection2021.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.tnelection2021.OnListFragmentInteractionListener
 import com.example.tnelection2021.R
 import com.example.tnelection2021.model.CandidateDetails
+import kotlinx.android.synthetic.main.activity_details.*
 import kotlinx.android.synthetic.main.fragment_item.view.*
 
 /**
  * Created by sathya-6501 on 20/03/21.
  */
-class CandidateRecyclerViewAdapter(candidateDetailsList: ArrayList<CandidateDetails>, interfaceReceiver : OnListFragmentInteractionListener) : RecyclerView.Adapter<CandidateRecyclerViewAdapter.ViewHolder?>()
+class CandidateRecyclerViewAdapter(val context : Context, candidateDetailsList: ArrayList<CandidateDetails>, interfaceReceiver : OnListFragmentInteractionListener) : RecyclerView.Adapter<CandidateRecyclerViewAdapter.ViewHolder?>()
 {
     private var mListener: OnListFragmentInteractionListener = interfaceReceiver
     private var mCandidateDetailsList: ArrayList<CandidateDetails> = candidateDetailsList
@@ -33,6 +36,8 @@ class CandidateRecyclerViewAdapter(candidateDetailsList: ArrayList<CandidateDeta
         holder.candidateNameTV.text = mCandidateDetails.candidate_name
         holder.candidatePartyTV.text = mCandidateDetails.candidate_party
 
+        Glide.with(context).load(mCandidateDetails.candidate_photo).into(holder.profile)
+
         holder.mView.setOnClickListener {
 
             mListener.onListFragmentInteraction(mCandidateDetails)
@@ -44,6 +49,7 @@ class CandidateRecyclerViewAdapter(candidateDetailsList: ArrayList<CandidateDeta
     {
         var candidateNameTV = view.name
         var candidatePartyTV = view.party
+        var profile = view.profile_photo
         var mView = view
     }
 }
