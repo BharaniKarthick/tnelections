@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity(), OnListFragmentInteractionListener {
                 e.printStackTrace()
             }
 
+
         }.addOnFailureListener{
             Log.e("db", "Error getting data", it)
             Toast.makeText(this,"Client is Offline ",Toast.LENGTH_LONG).show();
