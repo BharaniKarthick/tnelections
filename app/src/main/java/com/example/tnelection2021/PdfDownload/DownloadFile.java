@@ -2,6 +2,8 @@ package com.example.tnelection2021.PdfDownload;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.widget.Toast;
@@ -15,6 +17,8 @@ import java.io.IOException;
 public class DownloadFile extends AsyncTask<String, Void, Void>  {
 
     Context context;
+    String filePath;
+    Uri uri;
 
     public DownloadFile(Context context){
         this.context=context;
@@ -46,6 +50,9 @@ public class DownloadFile extends AsyncTask<String, Void, Void>  {
         }catch (IOException e){
             e.printStackTrace();
         }
+
+        filePath = pdfFile.getPath();
+        uri = Uri.parse(filePath);
         FileDownloader.downloadFile(fileUrl, pdfFile);
         return null;
     }
@@ -56,7 +63,17 @@ public class DownloadFile extends AsyncTask<String, Void, Void>  {
         hidepDialog();
        Toast.makeText(context, "Download PDf successfully", Toast.LENGTH_SHORT).show();
 
+       openPdf();
        // Log.d("Download complete", "----------");
+    }
+
+    private void openPdf()
+    {
+//        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/example.pdf");
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(uri, "application/pdf");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        context.startActivity(intent);
     }
 
     private void showpDialog() {

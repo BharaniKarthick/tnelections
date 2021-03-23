@@ -4,11 +4,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.tnelection2021.adapter.CandidateRecyclerViewAdapter
 import com.example.tnelection2021.model.AssemblyItem
 import com.example.tnelection2021.model.CandidateDetails
@@ -35,10 +37,16 @@ class MainActivity : AppCompatActivity(), OnListFragmentInteractionListener {
         setContentView(R.layout.activity_main)
         database = Firebase.database.reference
 
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         getDateFromFireBase()
         loadAllViews()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean
+    {
+        return super.onCreateOptionsMenu(menu)
+
+    }
     private fun getDateFromFireBase()
     {
         database.child("tn").get().addOnSuccessListener {
@@ -143,6 +151,7 @@ class MainActivity : AppCompatActivity(), OnListFragmentInteractionListener {
                 mCandidateDetails.candidate_constituency = jsonObject?.optString("candidate_constituency")
                 mCandidateDetails.candidate_current_status = jsonObject?.optString("candidate_current_status")
                 mCandidateDetails.candidate_state = jsonObject?.optString("candidate_state")
+                mCandidateDetails.candidate_f_h_name = jsonObject?.optString("candidate_f_h_name")
 
                 list.add(mCandidateDetails)
             }

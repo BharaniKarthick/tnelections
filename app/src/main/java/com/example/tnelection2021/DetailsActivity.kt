@@ -29,7 +29,10 @@ public class DetailsActivity : AppCompatActivity()
         setProfilePic()
         name.text = mCandidateDetails.candidate_name
         party.text = mCandidateDetails.candidate_party
-        video_url.text=mCandidateDetails.candidate_video_url
+        age.text = mCandidateDetails.candidate_age.toString()
+        f_h_name.text = mCandidateDetails.candidate_f_h_name
+        gender.text = mCandidateDetails.candidate_gender
+        address.text = mCandidateDetails.candidate_address
 
     }
 
