@@ -109,21 +109,45 @@ class MainActivity : AppCompatActivity(), OnListFragmentInteractionListener {
 
         recycler_view.invalidate()
 
-        try {
-
-            val assemblyItemList = GSON.fromJson(jsonObj.toString(), AssemblyItem::class.java)
-
-            if(assemblyItemList.candidate_details_list!!.size > 0)
-            {
-                list.addAll(assemblyItemList.candidate_details_list)
-            }
-
-        }catch (e:Exception){
-
-        }
+        list = getCandidateListFromJson(assembyName)
 
         recycler_view.adapter = CandidateRecyclerViewAdapter(list, this)
         recycler_view.invalidate()
+    }
+
+    private fun getCandidateListFromJson(assembyName: String): ArrayList<CandidateDetails>
+    {
+        var list : ArrayList<CandidateDetails> = ArrayList()
+
+        val jsonArray = jsonObj?.optJSONArray(assembyName)
+
+        if(jsonArray != null)
+        {
+            for (i in 0 until jsonArray!!.length() )
+            {
+                val jsonObject = jsonArray.getJSONObject(i)
+                var mCandidateDetails = CandidateDetails()
+
+
+                mCandidateDetails.candidate_photo = jsonObject?.optString("candidate_photo")
+                mCandidateDetails.candidate_name = jsonObject?.optString("candidate_name")
+                mCandidateDetails.candidate_age = jsonObject?.optInt("candidate_age")
+                mCandidateDetails.candidate_party = jsonObject?.optString("candidate_party")
+                mCandidateDetails.candidate_video_url = jsonObject?.optString("candidate_video_url")
+                mCandidateDetails.candidate_address = jsonObject?.optString("candidate_address")
+                mCandidateDetails.candidate_gender = jsonObject?.optString("candidate_gender")
+                mCandidateDetails.candidate_pdf = jsonObject?.optString("candidate_pdf")
+                mCandidateDetails.candiate_application_uploaded = jsonObject?.optString("candiate_application_uploaded")
+                mCandidateDetails.candidate_affidavit_upload = jsonObject?.optString("candidate_affidavit_upload")
+                mCandidateDetails.candidate_constituency = jsonObject?.optString("candidate_constituency")
+                mCandidateDetails.candidate_current_status = jsonObject?.optString("candidate_current_status")
+                mCandidateDetails.candidate_state = jsonObject?.optString("candidate_state")
+
+                list.add(mCandidateDetails)
+            }
+        }
+
+        return list
     }
 
     override fun onListFragmentInteraction(item: CandidateDetails)
