@@ -12,14 +12,14 @@
         android:id="@+id/top_view"
         android:padding="10dp"
         android:gravity="center"
-        android:background="@color/light_green"
+        android:background="@color/colorPrimary_black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.example.tnelection2021.views.RubikRegularTextView
+        <TextView
             android:text="@string/assembly"
             android:textSize="16sp"
-            android:textColor="@color/primaryTextColor"
+            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -30,6 +30,8 @@
             android:layout_marginStart="10dp"
             android:drawSelectorOnTop="true"
             android:gravity="end"
+            android:outlineSpotShadowColor="@color/white"
+            android:outlineAmbientShadowColor="@color/white"
             android:spinnerMode="dropdown" />
 
     </LinearLayout>
