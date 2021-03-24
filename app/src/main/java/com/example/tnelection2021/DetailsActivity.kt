@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.tnelection2021.PdfDownload.DownloadFile
 import com.example.tnelection2021.model.CandidateDetails
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_details.*
 
 
@@ -58,16 +59,27 @@ public class DetailsActivity : AppCompatActivity()
 
     fun showVideo(view: View)
     {
-        val intent = Intent(this, VideoPlayer::class.java)
-        intent.putExtra("candidate_details", mCandidateDetails)
-        startActivity(intent)
+       // Toast.makeText(this,""+mCandidateDetails.candidate_video_url.toString().length,Toast.LENGTH_LONG).show();
+        if(mCandidateDetails.candidate_video_url.toString().length>0)
+        {
+            val intent = Intent(this, VideoPlayer::class.java)
+            intent.putExtra("candidate_details", mCandidateDetails)
+            startActivity(intent)
+        }else{
+
+            Toast.makeText(this, "No Videos Uploaded for this Candidate", Toast.LENGTH_LONG).show();
+        }
+
 
     }
 
     fun downloadPdf(view: View) {
        val path= mCandidateDetails.candidate_pdf;
-        Toast.makeText(this,path,Toast.LENGTH_LONG).show();
-         DownloadFile(this).execute(path,mCandidateDetails.candidate_name+"_"+mCandidateDetails.candidate_party+"_.pdf")
+        //Toast.makeText(this, path, Toast.LENGTH_LONG).show();
+         DownloadFile(this).execute(
+             path,
+             mCandidateDetails.candidate_name + "_" + mCandidateDetails.candidate_party + "_.pdf"
+         )
 
 
     }

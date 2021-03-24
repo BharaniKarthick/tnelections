@@ -40,6 +40,7 @@ public class DownloadFile extends AsyncTask<String, Void, Void>  {
 
         String fileUrl = strings[0];
         String fileName = strings[1];
+       // Environment.getExternalF
         String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
         File folder = new File(extStorageDirectory, "PDF DOWNLOAD");
         folder.mkdir();
@@ -47,13 +48,17 @@ public class DownloadFile extends AsyncTask<String, Void, Void>  {
         File pdfFile = new File(folder, fileName);
         try{
             pdfFile.createNewFile();
+            FileDownloader.downloadFile(fileUrl, pdfFile);
+            filePath = pdfFile.getPath();
+            uri = Uri.parse(filePath);
         }catch (IOException e){
             e.printStackTrace();
+            Toast.makeText(context,"Error "+e.getMessage(),Toast.LENGTH_LONG).show();
+        }catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(context,"Error "+e.getMessage(),Toast.LENGTH_LONG).show();
         }
 
-        filePath = pdfFile.getPath();
-        uri = Uri.parse(filePath);
-        FileDownloader.downloadFile(fileUrl, pdfFile);
         return null;
     }
 
@@ -61,7 +66,7 @@ public class DownloadFile extends AsyncTask<String, Void, Void>  {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         hidepDialog();
-       Toast.makeText(context, "Download PDf successfully", Toast.LENGTH_SHORT).show();
+       Toast.makeText(context, "Download PDf successfully "+filePath, Toast.LENGTH_SHORT).show();
 
        openPdf();
        // Log.d("Download complete", "----------");
@@ -69,11 +74,17 @@ public class DownloadFile extends AsyncTask<String, Void, Void>  {
 
     private void openPdf()
     {
-//        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/example.pdf");
-        Intent intent = new Intent(Intent.ACTION_VIEW);
+
+       /* Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(uri, "application/pdf");
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-        context.startActivity(intent);
+        context.startActivity(intent);*/
+
+        File file = new File(filePath);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.fromFile(file), "application/pdf");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+       context. startActivity(intent);
     }
 
     private void showpDialog() {

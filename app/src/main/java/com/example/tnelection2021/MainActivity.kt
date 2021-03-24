@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity(), OnListFragmentInteractionListener {
         if(item.itemId == Menu.FIRST)
         {
             sendFeedback()
-            Toast.makeText(this, "Feedback sent...", Toast.LENGTH_LONG).show()
+            //Toast.makeText(this, "Feedback sent...", Toast.LENGTH_LONG).show()
         }
         return super.onOptionsItemSelected(item)
 
@@ -76,13 +76,13 @@ class MainActivity : AppCompatActivity(), OnListFragmentInteractionListener {
             }
             catch (e: ActivityNotFoundException)
             {
-
+                e.printStackTrace()
             }
 
         }
         catch (e: PackageManager.NameNotFoundException)
         {
-
+            e.printStackTrace()
         }
     }
 
