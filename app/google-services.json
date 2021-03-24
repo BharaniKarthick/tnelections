@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "545906889064",
-    "firebase_url": "https://tn-election-2021-default-rtdb.firebaseio.com",
-    "project_id": "tn-election-2021",
-    "storage_bucket": "tn-election-2021.appspot.com"
+    "project_number": "598043914173",
+    "project_id": "tn-election-5c829",
+    "storage_bucket": "tn-election-5c829.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:545906889064:android:9c1a4a24a42ff276b206dd",
+        "mobilesdk_app_id": "1:598043914173:android:37278a8dc2af22d637ecd4",
         "android_client_info": {
-          "package_name": "com.example.tnelection2021"
+          "package_name": "com.kernelkidsapp.tnelection2021"
         }
       },
       "oauth_client": [
         {
-          "client_id": "545906889064-gdiud32d74nf8fq8u4mgp64c9jp8h4ac.apps.googleusercontent.com",
+          "client_id": "598043914173-kqbmfi5khb2nhpbh261emhdal86br4mf.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCap-QpvKWZ9GqMzD3Sb9J6SxNATuw7zPk"
+          "current_key": "AIzaSyBKPazfYuqLJYZ_VahNzUezdPwRkv9DwDI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "545906889064-gdiud32d74nf8fq8u4mgp64c9jp8h4ac.apps.googleusercontent.com",
+              "client_id": "598043914173-kqbmfi5khb2nhpbh261emhdal86br4mf.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

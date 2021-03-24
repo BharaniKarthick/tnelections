@@ -11,7 +11,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.example.tnelection2021"
+        applicationId "com.kernelkidsapp.tnelection2021"
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1

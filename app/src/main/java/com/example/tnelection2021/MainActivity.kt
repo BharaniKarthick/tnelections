@@ -131,7 +131,7 @@ class MainActivity : AppCompatActivity(), OnListFragmentInteractionListener {
     private fun setStatesArrayList(string: String)
     {
         val alist = string.split(",")
-
+        mSatesArrayList  = ArrayList()
         mSatesArrayList.addAll(alist)
 
         setAdapter()
