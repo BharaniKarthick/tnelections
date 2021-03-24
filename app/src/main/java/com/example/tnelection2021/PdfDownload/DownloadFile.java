@@ -68,7 +68,7 @@ public class DownloadFile extends AsyncTask<String, Void, Void>  {
         hidepDialog();
        Toast.makeText(context, "Download PDf successfully "+filePath, Toast.LENGTH_SHORT).show();
 
-       openPdf();
+      // openPdf();
        // Log.d("Download complete", "----------");
     }
 
